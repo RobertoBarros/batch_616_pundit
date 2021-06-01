@@ -1,0 +1,66 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Restaurants</h1>
+
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @restaurants.each do |restaurant| %>
+      <tr>
+        <td><%= restaurant.name %></td>
+        <td><%= restaurant.user.email %></td>
+        <td><%= link_to 'Show', restaurant %></td>
+
+        <td>
+
+          <%# Authorization withou pundit %>
+          <%# if current_user.admin? || restaurant.user == current_user %>
+            <%#= link_to 'Edit', edit_restaurant_path(restaurant) %>
+          <%# end %>
+
+
+          <% if policy(restaurant).edit? %>
+            <%= link_to 'Edit', edit_restaurant_path(restaurant) %>
+          <% end %>
+        </td>
+
+
+        <td>
+          <%# Authorization withou pundit %>
+          <%# if current_user.admin? || restaurant.user == current_user %>
+            <%#= link_to 'Destroy', restaurant, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <%# end %>
+
+          <% if policy(restaurant).destroy? %>
+            <%= link_to 'Destroy', restaurant, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%# Authorization withou pundit %>
+<%# if current_user %>
+  <%#= link_to 'New Restaurant', new_restaurant_path, class: 'btn btn-primary' %>
+<%# end%>
+
+<% if policy(Restaurant).create? %>
+  <%= link_to 'New Restaurant', new_restaurant_path, class: 'btn btn-primary' %>
+<% end %>
+
+
+
+
+
+
